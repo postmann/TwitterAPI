@@ -198,10 +198,13 @@ class TwitterResponse(object):
             if 'x-rate-limit-remaining' in self.response.headers:
                 remaining = int(
                     self.response.headers['x-rate-limit-remaining'])
-                if remaining == 0:
-                    limit = int(self.response.headers['x-rate-limit-limit'])
-                    reset = int(self.response.headers['x-rate-limit-reset'])
-                    reset = datetime.fromtimestamp(reset)
+            if 'x-rate-limit-limit' in self.response.headers:
+                limit = int(
+                    self.response.headers['x-rate-limit-limit'])
+            if 'x-rate-limit-reset' in self.response.headers:
+                reset = int(
+                    self.response.headers['x-rate-limit-reset'])
+                reset = datetime.fromtimestamp(reset)
         return {'remaining': remaining, 'limit': limit, 'reset': reset}
 
     def close(self):
